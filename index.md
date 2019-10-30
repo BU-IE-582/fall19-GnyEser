@@ -1,5 +1,5 @@
 
-# Homework 1 
+# Homework 1 and 2
 
 Importing necessary libraries.
 
