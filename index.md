@@ -24,6 +24,166 @@ away_goals = list()
 home_away_goals = list()
 ```
 
+Let's grab the data for only English Premier League which its ID is 148:
+
+
+```python
+x = data['league_id'] == 148
+data = data[x]
+```
+
+
+```python
+data.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>match_awayteam_id</th>
+      <th>match_hometeam_id</th>
+      <th>match_id</th>
+      <th>epoch</th>
+      <th>match_status</th>
+      <th>match_live</th>
+      <th>match_hometeam_name</th>
+      <th>match_awayteam_name</th>
+      <th>match_hometeam_score</th>
+      <th>match_awayteam_score</th>
+      <th>match_hometeam_halftime_score</th>
+      <th>match_awayteam_halftime_score</th>
+      <th>match_hometeam_extra_score</th>
+      <th>match_awayteam_extra_score</th>
+      <th>match_hometeam_penalty_score</th>
+      <th>match_awayteam_penalty_score</th>
+      <th>league_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>2614</td>
+      <td>2619</td>
+      <td>13331</td>
+      <td>1505561400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Crystal Palace</td>
+      <td>Southampton</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2626</td>
+      <td>2623</td>
+      <td>13329</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Watford</td>
+      <td>Manchester City</td>
+      <td>0.0</td>
+      <td>6.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2629</td>
+      <td>2621</td>
+      <td>13327</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Liverpool</td>
+      <td>Burnley</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2641</td>
+      <td>2654</td>
+      <td>13456</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Sheffield Utd</td>
+      <td>Norwich</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>2617</td>
+      <td>2616</td>
+      <td>13324</td>
+      <td>1505651400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Chelsea</td>
+      <td>Arsenal</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
 Assing home team goals and away team goals in seperate lists.
 
 
@@ -40,18 +200,18 @@ data["match_hometeam_score"].to_frame().info()
 ```
 
     <class 'pandas.core.frame.DataFrame'>
-    RangeIndex: 5174 entries, 0 to 5173
+    Int64Index: 628 entries, 1 to 5161
     Data columns (total 1 columns):
-    match_hometeam_score    5074 non-null float64
+    match_hometeam_score    618 non-null float64
     dtypes: float64(1)
-    memory usage: 40.5 KB
+    memory usage: 9.8 KB
     
 
 Let's create another list for results combining home and away goals.
 
 
 ```python
-for i in range(5174):
+for i in range(618):
     home_away_goals.append(str(home_goals[i]) + "-" + str(away_goals[i]))
 ```
 
@@ -67,7 +227,7 @@ plt.show()
 ```
 
 
-![png](output_12_0.png)
+![png](output_15_0.png)
 
 
 And away goals:
@@ -82,7 +242,7 @@ plt.show()
 ```
 
 
-![png](output_14_0.png)
+![png](output_17_0.png)
 
 
 And which results are more likely to occur in matches:
@@ -97,7 +257,7 @@ plt.show()
 ```
 
 
-![png](output_16_0.png)
+![png](output_19_0.png)
 
 
 It looks like distribution of away goals looks like poisson distribution.
@@ -116,7 +276,7 @@ from scipy import stats
 from scipy.stats import norm
 ```
 
-When we try to plot distribituon, an awkward graph meets us.. :
+When we try to plot distribituon :
 
 
 ```python
@@ -126,31 +286,12 @@ sns.distplot(data.match_awayteam_score.dropna(), bins=7)
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x23448f59160>
+    <matplotlib.axes._subplots.AxesSubplot at 0x234778f3160>
 
 
 
 
-![png](output_21_1.png)
-
-
-Then we try another method to graph, but no success..:
-
-
-```python
-import matplotlib.mlab as mlab
-sigma = 15
-mu= 100
-n, bins, patches = plt.hist(dats, 7, density=1, facecolor='blue', alpha=0.5)
-y = ((1 / (np.sqrt(2 * np.pi) * sigma)) *
-     np.exp(-0.5 * (1 / sigma * (bins - mu))**2))
-ax.plot(bins, y, '--')
-
-plt.show()
-```
-
-
-![png](output_23_0.png)
+![png](output_24_1.png)
 
 
 # Task 2
@@ -367,11 +508,11 @@ data.results.head()
 
 
 
-    0     True
-    1    False
-    2    False
-    3    False
-    4    False
+    1     False
+    5     False
+    6      True
+    7     False
+    27     True
     Name: results, dtype: bool
 
 
@@ -424,27 +565,6 @@ data.head()
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>7109</td>
-      <td>7097</td>
-      <td>41196</td>
-      <td>1505559600</td>
-      <td>Finished</td>
-      <td>0</td>
-      <td>Levante</td>
-      <td>Valencia</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>468</td>
-      <td>True</td>
-    </tr>
-    <tr>
       <th>1</th>
       <td>2614</td>
       <td>2619</td>
@@ -466,67 +586,88 @@ data.head()
       <td>False</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>3224</td>
-      <td>3238</td>
-      <td>17683</td>
-      <td>1505568600</td>
+      <th>5</th>
+      <td>2626</td>
+      <td>2623</td>
+      <td>13329</td>
+      <td>1505570400</td>
       <td>Finished</td>
       <td>0</td>
-      <td>Eintracht Frankfurt</td>
-      <td>FC Augsburg</td>
-      <td>1.0</td>
-      <td>2.0</td>
+      <td>Watford</td>
+      <td>Manchester City</td>
       <td>0.0</td>
-      <td>1.0</td>
+      <td>6.0</td>
       <td>0.0</td>
-      <td>1.0</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>195</td>
+      <td>148</td>
       <td>False</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>3235</td>
-      <td>3223</td>
-      <td>17684</td>
-      <td>1505568600</td>
+      <th>6</th>
+      <td>2629</td>
+      <td>2621</td>
+      <td>13327</td>
+      <td>1505570400</td>
       <td>Finished</td>
       <td>0</td>
-      <td>SV Werder Bremen</td>
-      <td>Schalke</td>
+      <td>Liverpool</td>
+      <td>Burnley</td>
       <td>1.0</td>
-      <td>2.0</td>
+      <td>1.0</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>1.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>195</td>
+      <td>148</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2641</td>
+      <td>2654</td>
+      <td>13456</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Sheffield Utd</td>
+      <td>Norwich</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
       <td>False</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>3237</td>
-      <td>3225</td>
-      <td>17682</td>
-      <td>1505568600</td>
+      <th>27</th>
+      <td>2617</td>
+      <td>2616</td>
+      <td>13324</td>
+      <td>1505651400</td>
       <td>Finished</td>
       <td>0</td>
-      <td>Bayern Munich</td>
-      <td>1. FSV Mainz 05</td>
-      <td>4.0</td>
+      <td>Chelsea</td>
+      <td>Arsenal</td>
       <td>0.0</td>
-      <td>2.0</td>
       <td>0.0</td>
-      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>195</td>
-      <td>False</td>
+      <td>148</td>
+      <td>True</td>
     </tr>
   </tbody>
 </table>
@@ -574,7 +715,7 @@ bets.head()
       <td>146845</td>
       <td>BetOlimp</td>
       <td>1486301854</td>
-      <td>odd_x</td>
+      <td>odd_1</td>
       <td>1.96</td>
       <td>0.510204</td>
     </tr>
@@ -583,7 +724,7 @@ bets.head()
       <td>151780</td>
       <td>10Bet</td>
       <td>1486314920</td>
-      <td>odd_x</td>
+      <td>odd_1</td>
       <td>2.15</td>
       <td>0.465116</td>
     </tr>
@@ -592,7 +733,7 @@ bets.head()
       <td>151780</td>
       <td>18bet</td>
       <td>1486314920</td>
-      <td>odd_x</td>
+      <td>odd_1</td>
       <td>2.17</td>
       <td>0.460829</td>
     </tr>
@@ -601,7 +742,7 @@ bets.head()
       <td>151780</td>
       <td>1xBet</td>
       <td>1486314920</td>
-      <td>odd_x</td>
+      <td>odd_1</td>
       <td>2.20</td>
       <td>0.454545</td>
     </tr>
@@ -610,7 +751,7 @@ bets.head()
       <td>151780</td>
       <td>5Dimes</td>
       <td>1486314920</td>
-      <td>odd_x</td>
+      <td>odd_1</td>
       <td>2.23</td>
       <td>0.448430</td>
     </tr>
@@ -626,7 +767,12 @@ We filter the Bets data to get only draw bets. And add a new column named **draw
 ```python
 x = bets['variable'] == 'odd_x'
 bets["draw"] = False
-bets[x].head()
+bets_draw = bets[x]
+```
+
+
+```python
+bets_draw.head()
 ```
 
 
@@ -718,22 +864,109 @@ bets[x].head()
 
 
 ```python
-for index, row in bets[x].iterrows():
-    id = row["match_id"]
-    if data.query(f'match_id == {id}').results.values[0]:
-        bets[x].query(f'match_id == {id}').draw = True
+data.results.value_counts()
 ```
+
+
+
+
+    False    493
+    True     135
+    Name: results, dtype: int64
+
+
+
+
+```python
+count = int()
+for index, row in bets_draw.iterrows():
+    id = row["match_id"]
+    match = data.query(f'match_id == {id}')
+    if len(match) > 0:
+        if match.results.values[0]:
+            count+=1
+            bets_draw.at[index,'draw'] = True
+```
+
+
+```python
+count
+```
+
+
+
+
+    3783
+
+
+
+
+```python
+bets_draw.draw.value_counts()
+```
+
+
+
+
+    False    140999
+    True       3783
+    Name: draw, dtype: int64
+
+
+
+
+```python
+%%capture
+from tqdm import tqdm_notebook as tqdm
+tqdm().pandas()
+```
+
+
+```python
+indexes = list()
+with tqdm(total = len(bets_draw)) as pbar:
+    for index,row in bets_draw.iterrows():
+        id = row['match_id']
+        match = data.query(f'match_id == {id}')
+        if len(match) == 0:
+            indexes.append(index)
+        elif len(match) > 0:
+            bets_draw.at[index,'draw'] = True
+        pbar.update(1)
+
+bets_draw = bets_draw.drop(indexes)
+```
+
+
+    HBox(children=(IntProgress(value=0, max=144782), HTML(value='')))
+
+
+    
+    
+
+
+```python
+bets_draw.draw.value_counts()
+```
+
+
+
+
+    True    19660
+    Name: draw, dtype: int64
+
+
 
 We put 4 different dataset of draw bets from 4 different Bookmakers into a python list named **makers**
 
 
 ```python
-bookmakers = bets[x].odd_bookmakers.unique().tolist()
-type(bookmakers)
+bookmakers = bets[x].odd_bookmakers.unique().tolist()  # Get a list of bookmakers.
+#type(bookmakers)
 
 makers = list()
 
-for i in bookmakers[:4]:
+for i in bookmakers[:4]:  #For the first 4 bookmakers in the list bookmakers. We get their data into makers list.
     bookmaker = bets[x]['odd_bookmakers'] == i
     
     makers.append(bets[x][bookmaker])
@@ -1274,7 +1507,336 @@ for i in bins_for_1xbet:
     (0.4 - 0.41]        :         0.0
     
 
-### Diğer 3 Odd_Bookmaker liste elemanlarını da Draw ise True yapman lazım aynı üstteki gibi. Kolkay gelsin dostum.
+Since we are done with the draw boolen column, we can dop it:
+
+
+```python
+bets = bets.drop(['draw'], axis=1)
+```
+
+Now let's take a look at the home win bets:
+
+
+```python
+#bets = bets.drop(['away_win'], axis=1)
+x = bets['variable'] == 'odd_1'
+bets["home_win"] = False
+bets[x].head(10)
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>match_id</th>
+      <th>odd_bookmakers</th>
+      <th>odd_epoch</th>
+      <th>variable</th>
+      <th>value</th>
+      <th>possibility</th>
+      <th>home_win</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>146845</td>
+      <td>BetOlimp</td>
+      <td>1486301854</td>
+      <td>odd_1</td>
+      <td>1.96</td>
+      <td>0.510204</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>151780</td>
+      <td>10Bet</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.15</td>
+      <td>0.465116</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>151780</td>
+      <td>18bet</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.17</td>
+      <td>0.460829</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>151780</td>
+      <td>1xBet</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.20</td>
+      <td>0.454545</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>151780</td>
+      <td>5Dimes</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.23</td>
+      <td>0.448430</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>151780</td>
+      <td>bet-at-home</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.12</td>
+      <td>0.471698</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>151780</td>
+      <td>bet365</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.20</td>
+      <td>0.454545</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>151780</td>
+      <td>BetOlimp</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.19</td>
+      <td>0.456621</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>151780</td>
+      <td>Betrally</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.15</td>
+      <td>0.465116</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>151780</td>
+      <td>BetVictor</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.20</td>
+      <td>0.454545</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+bookmakers = bets[x].odd_bookmakers.unique().tolist()
+type(bookmakers)
+
+makers_1 = list()
+
+for i in bookmakers[:4]:
+    bookmaker = bets[x]['odd_bookmakers'] == i
+    
+    makers_1.append(bets[x][bookmaker])
+```
+
+
+```python
+bets.query(f'match_id == 146845')
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>match_id</th>
+      <th>odd_bookmakers</th>
+      <th>odd_epoch</th>
+      <th>variable</th>
+      <th>value</th>
+      <th>possibility</th>
+      <th>home_win</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>146845</td>
+      <td>BetOlimp</td>
+      <td>1486301854</td>
+      <td>odd_1</td>
+      <td>1.96</td>
+      <td>0.510204</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>146845</td>
+      <td>BetOlimp</td>
+      <td>1486301854</td>
+      <td>odd_x</td>
+      <td>3.49</td>
+      <td>0.286533</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>146845</td>
+      <td>BetOlimp</td>
+      <td>1486301854</td>
+      <td>odd_2</td>
+      <td>3.65</td>
+      <td>0.273973</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+makers_1[0].head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>match_id</th>
+      <th>odd_bookmakers</th>
+      <th>odd_epoch</th>
+      <th>variable</th>
+      <th>value</th>
+      <th>possibility</th>
+      <th>home_win</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>146845</td>
+      <td>BetOlimp</td>
+      <td>1486301854</td>
+      <td>odd_1</td>
+      <td>1.96</td>
+      <td>0.510204</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>151780</td>
+      <td>BetOlimp</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.19</td>
+      <td>0.456621</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>151781</td>
+      <td>BetOlimp</td>
+      <td>1486314941</td>
+      <td>odd_1</td>
+      <td>2.95</td>
+      <td>0.338983</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>147990</td>
+      <td>BetOlimp</td>
+      <td>1486710451</td>
+      <td>odd_1</td>
+      <td>2.14</td>
+      <td>0.467290</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>148000</td>
+      <td>BetOlimp</td>
+      <td>1486710493</td>
+      <td>odd_1</td>
+      <td>2.50</td>
+      <td>0.400000</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
 
 
 ```python
@@ -1434,16 +1996,221 @@ data.head()
 
 
 
+We extract the part of the data which has home team wins. Since we dont have a column that tells us the result, we compare goals of home teams and away teams and add the matches with bigger home team goals to the new dataset called **home_wins**
+
 
 ```python
-len(bets[x].odd_bookmakers.unique().tolist())
+home_wins = data[data['match_hometeam_score'] > data['match_awayteam_score']]
+home_wins.head()
 ```
 
 
 
 
-    103
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>match_awayteam_id</th>
+      <th>match_hometeam_id</th>
+      <th>match_id</th>
+      <th>epoch</th>
+      <th>match_status</th>
+      <th>match_live</th>
+      <th>match_hometeam_name</th>
+      <th>match_awayteam_name</th>
+      <th>match_hometeam_score</th>
+      <th>match_awayteam_score</th>
+      <th>match_hometeam_halftime_score</th>
+      <th>match_awayteam_halftime_score</th>
+      <th>match_hometeam_extra_score</th>
+      <th>match_awayteam_extra_score</th>
+      <th>match_hometeam_penalty_score</th>
+      <th>match_awayteam_penalty_score</th>
+      <th>league_id</th>
+      <th>results</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4</th>
+      <td>3237</td>
+      <td>3225</td>
+      <td>17682</td>
+      <td>1505568600</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Bayern Munich</td>
+      <td>1. FSV Mainz 05</td>
+      <td>4.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>195</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2642</td>
+      <td>2650</td>
+      <td>13448</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Bristol City</td>
+      <td>Derby</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>149</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2645</td>
+      <td>2648</td>
+      <td>13453</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Middlesbrough</td>
+      <td>QPR</td>
+      <td>3.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>149</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2653</td>
+      <td>2638</td>
+      <td>13454</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Millwall</td>
+      <td>Leeds</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>149</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>7110</td>
+      <td>7115</td>
+      <td>41313</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Valladolid</td>
+      <td>Granada CF</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>468</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+for i in makers_1:
+    for index,rows in i.iterrows():
+        id = rows['match_id']
+        if len(home_wins.query(f'match_id == {id}')) > 0:
+            i.at[index,'home_win'] = True
+```
+
+
+```python
+bins_for_10bet_1 = list()
+bins_for_18bet_1 = list()
+bins_for_betolimp_1 = list()
+bins_for_1xbet_1 = list()
+
+for i in makers_1:
+    poss = 0.0
+    if i['odd_bookmakers'].unique().tolist()[0] == 'BetOlimp':
+        while poss <= 0.90:
+            bins_for_betolimp_1.append(i[np.logical_and(i['possibility'] > poss , i['possibility'] <= (poss + 0.10))])
+            poss += 0.10
+    poss = 0.0
+    if i['odd_bookmakers'].unique().tolist()[0] == '10Bet':
+        while poss <= 0.90:
+            bins_for_10bet_1.append(i[np.logical_and(i['possibility'] > poss , i['possibility'] <= (poss + 0.10))])
+            poss += 0.10
+    poss = 0.0
+    if i['odd_bookmakers'].unique().tolist()[0] == '18Bet':
+        while poss <= 0.90:
+            bins_for_18bet_1.append(i[np.logical_and(i['possibility'] > poss , i['possibility'] <= (poss + 0.10))])
+            poss += 0.10
+    poss = 0.0
+    if i['odd_bookmakers'].unique().tolist()[0] == '1xBet':
+        while poss <= 0.90:
+            bins_for_10bet_1.append(i[np.logical_and(i['possibility'] > poss , i['possibility'] <= (poss + 0.10))])
+            poss += 0.10
+    poss = 0.0
+```
+
+
+```python
+
+```
+
+
+
+
+    <matplotlib.collections.PathCollection at 0x23465685f28>
+
+
+
+
+![png](output_89_1.png)
 
 
 
@@ -1453,18 +2220,23 @@ len(bets[x].odd_bookmakers.unique().tolist())
 
 
 ```python
-
+for i in makers_1:
+    print(i['odd_bookmakers'].unique().tolist())
+    
 ```
+
+    ['BetOlimp']
+    ['10Bet']
+    ['18bet']
+    ['1xBet']
+    
 
 
 ```python
-
-```
-
-
-```python
-goals = pd.read_csv("goals.csv")
-goals.head()
+#bets = bets.drop(['home_win'], axis = 1)
+x = bets['variable'] == 'odd_2'
+bets["away_win"] = False
+bets[x].head()
 ```
 
 
@@ -1489,55 +2261,419 @@ goals.head()
     <tr style="text-align: right;">
       <th></th>
       <th>match_id</th>
-      <th>time</th>
-      <th>home_scorer</th>
-      <th>score</th>
-      <th>away_scorer</th>
+      <th>odd_bookmakers</th>
+      <th>odd_epoch</th>
+      <th>variable</th>
+      <th>value</th>
+      <th>possibility</th>
+      <th>away_win</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>13327</td>
-      <td>30</td>
-      <td>Salah M.</td>
-      <td>1 - 1</td>
-      <td>NaN</td>
+      <th>70</th>
+      <td>146845</td>
+      <td>BetOlimp</td>
+      <td>1486301854</td>
+      <td>odd_2</td>
+      <td>3.65</td>
+      <td>0.273973</td>
+      <td>False</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>13446</td>
-      <td>35</td>
-      <td>Colin M.</td>
-      <td>1 - 0</td>
-      <td>NaN</td>
+      <th>71</th>
+      <td>151780</td>
+      <td>10Bet</td>
+      <td>1486314920</td>
+      <td>odd_2</td>
+      <td>3.70</td>
+      <td>0.270270</td>
+      <td>False</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>13446</td>
-      <td>56</td>
-      <td>NaN</td>
-      <td>1 - 1</td>
-      <td>Johnson D.</td>
+      <th>72</th>
+      <td>151780</td>
+      <td>18bet</td>
+      <td>1486314920</td>
+      <td>odd_2</td>
+      <td>3.32</td>
+      <td>0.301205</td>
+      <td>False</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>13446</td>
-      <td>60</td>
-      <td>NaN</td>
-      <td>1 - 2</td>
-      <td>Hugill J.</td>
+      <th>73</th>
+      <td>151780</td>
+      <td>1xBet</td>
+      <td>1486314920</td>
+      <td>odd_2</td>
+      <td>3.88</td>
+      <td>0.257732</td>
+      <td>False</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>13446</td>
-      <td>67</td>
-      <td>NaN</td>
-      <td>1 - 3</td>
-      <td>Barkhuizen T.</td>
+      <th>74</th>
+      <td>151780</td>
+      <td>5Dimes</td>
+      <td>1486314920</td>
+      <td>odd_2</td>
+      <td>3.82</td>
+      <td>0.261780</td>
+      <td>False</td>
     </tr>
   </tbody>
 </table>
 </div>
 
 
+
+
+```python
+bookmakers = bets[x].odd_bookmakers.unique().tolist()
+type(bookmakers)
+
+makers_2 = list()
+
+for i in bookmakers[:4]:
+    bookmaker = bets[x]['odd_bookmakers'] == i
+    
+    makers_2.append(bets[x][bookmaker])
+```
+
+
+```python
+away_wins = data[data['match_hometeam_score'] < data['match_awayteam_score']]
+away_wins.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>match_awayteam_id</th>
+      <th>match_hometeam_id</th>
+      <th>match_id</th>
+      <th>epoch</th>
+      <th>match_status</th>
+      <th>match_live</th>
+      <th>match_hometeam_name</th>
+      <th>match_awayteam_name</th>
+      <th>match_hometeam_score</th>
+      <th>match_awayteam_score</th>
+      <th>match_hometeam_halftime_score</th>
+      <th>match_awayteam_halftime_score</th>
+      <th>match_hometeam_extra_score</th>
+      <th>match_awayteam_extra_score</th>
+      <th>match_hometeam_penalty_score</th>
+      <th>match_awayteam_penalty_score</th>
+      <th>league_id</th>
+      <th>results</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>2614</td>
+      <td>2619</td>
+      <td>13331</td>
+      <td>1505561400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Crystal Palace</td>
+      <td>Southampton</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3224</td>
+      <td>3238</td>
+      <td>17683</td>
+      <td>1505568600</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Eintracht Frankfurt</td>
+      <td>FC Augsburg</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>195</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3235</td>
+      <td>3223</td>
+      <td>17684</td>
+      <td>1505568600</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>SV Werder Bremen</td>
+      <td>Schalke</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>195</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2626</td>
+      <td>2623</td>
+      <td>13329</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Watford</td>
+      <td>Manchester City</td>
+      <td>0.0</td>
+      <td>6.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2641</td>
+      <td>2654</td>
+      <td>13456</td>
+      <td>1505570400</td>
+      <td>Finished</td>
+      <td>0</td>
+      <td>Sheffield Utd</td>
+      <td>Norwich</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>148</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+for i in makers_2:
+    for index,rows in i.iterrows():
+        id = rows['match_id']
+        if len(away_wins.query(f'match_id == {id}')) > 0:
+            i.at[index,'away_win'] = True
+```
+
+
+```python
+bins_for_10bet_2 = list()
+bins_for_18bet_2 = list()
+bins_for_betolimp_2 = list()
+bins_for_1xbet_2 = list()
+
+for i in makers_2:
+    poss = 0.0
+    if i['odd_bookmakers'].unique().tolist()[0] == 'BetOlimp':
+        while poss <= 0.90:
+            bins_for_betolimp_2.append(i[np.logical_and(i['possibility'] > poss , i['possibility'] <= (poss + 0.10))])
+            poss += 0.10
+    poss = 0.0
+    if i['odd_bookmakers'].unique().tolist()[0] == '10Bet':
+        while poss <= 0.90:
+            bins_for_10bet_2.append(i[np.logical_and(i['possibility'] > poss , i['possibility'] <= (poss + 0.10))])
+            poss += 0.10
+    poss = 0.0
+    if i['odd_bookmakers'].unique().tolist()[0] == '18Bet':
+        while poss <= 0.90:
+            bins_for_18bet_2.append(i[np.logical_and(i['possibility'] > poss , i['possibility'] <= (poss + 0.10))])
+            poss += 0.10
+    poss = 0.0
+    if i['odd_bookmakers'].unique().tolist()[0] == '1xBet':
+        while poss <= 0.90:
+            bins_for_10bet_2.append(i[np.logical_and(i['possibility'] > poss , i['possibility'] <= (poss + 0.10))])
+            poss += 0.10
+    poss = 0.0
+```
+
+
+```python
+makers_1[0].head()
+#makers[0].head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>match_id</th>
+      <th>odd_bookmakers</th>
+      <th>odd_epoch</th>
+      <th>variable</th>
+      <th>value</th>
+      <th>possibility</th>
+      <th>home_win</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>146845</td>
+      <td>BetOlimp</td>
+      <td>1486301854</td>
+      <td>odd_1</td>
+      <td>1.96</td>
+      <td>0.510204</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>151780</td>
+      <td>BetOlimp</td>
+      <td>1486314920</td>
+      <td>odd_1</td>
+      <td>2.19</td>
+      <td>0.456621</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>151781</td>
+      <td>BetOlimp</td>
+      <td>1486314941</td>
+      <td>odd_1</td>
+      <td>2.95</td>
+      <td>0.338983</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>147990</td>
+      <td>BetOlimp</td>
+      <td>1486710451</td>
+      <td>odd_1</td>
+      <td>2.14</td>
+      <td>0.467290</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>148000</td>
+      <td>BetOlimp</td>
+      <td>1486710493</td>
+      <td>odd_1</td>
+      <td>2.50</td>
+      <td>0.400000</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+home_away = pd.concat([(-makers_2[0]["possibility"]), makers_1[0]["possibility"]])
+home_away.head()
+                
+```
+
+
+
+
+    70    -0.273973
+    77    -0.275482
+    94    -0.406504
+    221   -0.263852
+    238   -0.335570
+    Name: possibility, dtype: float64
+
+
+
+
+```python
+
+
+plt.figure(figsize= (16,7))
+
+plt.subplot(1,2,1)
+plt.title("BetOlimp")
+plt.scatter(makers_1[0]["possibility"], makers[0]["possibility"], alpha = 0.05)
+plt.xlabel("Home-Win Possibilities")
+plt.ylabel("Draw Possibilities")
+plt.subplot(1,2,2)
+plt.title("10Bet")
+plt.scatter(makers_1[1]["possibility"], makers[1]["possibility"], alpha = 0.05)
+plt.xlabel("Home-Win Possibilities")
+plt.ylabel("Draw Possibilities")
+plt.show()
+```
+
+
+![png](output_99_0.png)
+
+
+
+```python
+
+```
