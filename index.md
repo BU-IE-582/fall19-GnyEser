@@ -2199,27 +2199,6 @@ for i in makers_1:
 
 
 ```python
-
-```
-
-
-
-
-    <matplotlib.collections.PathCollection at 0x23465685f28>
-
-
-
-
-![png](output_89_1.png)
-
-
-
-```python
-
-```
-
-
-```python
 for i in makers_1:
     print(i['odd_bookmakers'].unique().tolist())
     
@@ -2670,10 +2649,442 @@ plt.show()
 ```
 
 
-![png](output_99_0.png)
+![png](output_97_0.png)
+
+
+## Homework 2
+
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import cv2
+```
+
+Column 1 --> Bag Class
+
+Column 2 --> Bag ID
+
+
+```python
+data = pd.read_csv('Musk1.csv', header = None)
+data.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>158</th>
+      <th>159</th>
+      <th>160</th>
+      <th>161</th>
+      <th>162</th>
+      <th>163</th>
+      <th>164</th>
+      <th>165</th>
+      <th>166</th>
+      <th>167</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>42</td>
+      <td>-198</td>
+      <td>-109</td>
+      <td>-75</td>
+      <td>-117</td>
+      <td>11</td>
+      <td>23</td>
+      <td>-88</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-74</td>
+      <td>-129</td>
+      <td>-120</td>
+      <td>-38</td>
+      <td>30</td>
+      <td>48</td>
+      <td>-37</td>
+      <td>6</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>42</td>
+      <td>-191</td>
+      <td>-142</td>
+      <td>-65</td>
+      <td>-117</td>
+      <td>55</td>
+      <td>49</td>
+      <td>-170</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-302</td>
+      <td>60</td>
+      <td>-120</td>
+      <td>-39</td>
+      <td>31</td>
+      <td>48</td>
+      <td>-37</td>
+      <td>5</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>1</td>
+      <td>42</td>
+      <td>-191</td>
+      <td>-142</td>
+      <td>-75</td>
+      <td>-117</td>
+      <td>11</td>
+      <td>49</td>
+      <td>-161</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-73</td>
+      <td>-127</td>
+      <td>-120</td>
+      <td>-38</td>
+      <td>30</td>
+      <td>48</td>
+      <td>-37</td>
+      <td>5</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>42</td>
+      <td>-198</td>
+      <td>-110</td>
+      <td>-65</td>
+      <td>-117</td>
+      <td>55</td>
+      <td>23</td>
+      <td>-95</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-302</td>
+      <td>60</td>
+      <td>-120</td>
+      <td>-39</td>
+      <td>30</td>
+      <td>48</td>
+      <td>-37</td>
+      <td>6</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>2</td>
+      <td>42</td>
+      <td>-198</td>
+      <td>-102</td>
+      <td>-75</td>
+      <td>-117</td>
+      <td>10</td>
+      <td>24</td>
+      <td>-87</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-73</td>
+      <td>-127</td>
+      <td>51</td>
+      <td>128</td>
+      <td>144</td>
+      <td>43</td>
+      <td>-30</td>
+      <td>14</td>
+      <td>26</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 168 columns</p>
+</div>
+
+
+
+## Task 2
+
+### Let's display our 256x256 photo
+
+
+```python
+image = cv2.imread('selfie.jpg',1)
+#gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+plt.figure(figsize = (6,6))
+plt.imshow(image)
+```
+
+
+
+
+    <matplotlib.image.AxesImage at 0x2398da1f208>
+
+
+
+
+![png](output_104_1.png)
 
 
 
 ```python
-
+r,g,b = cv2.split(image)
 ```
+
+
+```python
+noise_R = np.random.uniform(r.min(),r.max()*0.1, r.size)
+noise_G = np.random.uniform(g.min(),g.max()*0.1, g.size)
+noise_B = np.random.uniform(b.min(),b.max()*0.1, b.size)
+```
+
+
+```python
+noise_R = noise_R.reshape(256,256)
+noise_G = noise_G.reshape(256,256)
+noise_B = noise_B.reshape(256,256)
+```
+
+
+```python
+r = r + noise_R
+g = g + noise_G
+b = b + noise_B
+```
+
+Some pixel values could get bigger than 255, to avoid that, we use clip fuction to limit max of a pixel value: 
+
+
+```python
+r = np.clip(r, a_min = 0, a_max = 255)
+g = np.clip(g, a_min = 0, a_max = 255)
+b = np.clip(b, a_min = 0, a_max = 255)
+```
+
+
+```python
+img = cv2.merge((r, g, b))
+```
+
+### Noisy Image
+
+
+```python
+plt.figure(figsize = (7, 7))
+img = img.astype(np.uint8)
+plt.imshow(img)
+```
+
+
+
+
+    <matplotlib.image.AxesImage at 0x23991573668>
+
+
+
+
+![png](output_113_1.png)
+
+
+### Each channel of the Noisy Image
+
+
+```python
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(15,10))
+#fig.suptitle('Channels')
+ax1.imshow(r)
+ax2.imshow(g)
+ax3.imshow(b)
+```
+
+
+
+
+    <matplotlib.image.AxesImage at 0x2398ddf77f0>
+
+
+
+
+![png](output_115_1.png)
+
+
+### Now lets transform our noisy image to grayscale format:
+
+
+```python
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+plt.imshow(gray)
+```
+
+
+
+
+    <matplotlib.image.AxesImage at 0x23991626668>
+
+
+
+
+![png](output_117_1.png)
+
+
+
+```python
+gray
+```
+
+
+
+
+    array([[199, 205, 225, ..., 251, 251, 252],
+           [197, 205, 216, ..., 252, 252, 252],
+           [192, 204, 208, ..., 252, 252, 251],
+           ...,
+           [ 79,  79,  80, ..., 157, 157, 158],
+           [ 81,  79,  78, ..., 158, 156, 168],
+           [ 79,  77,  75, ..., 168, 164, 158]], dtype=uint8)
+
+
+
+### Import necessary libraries to implement PCA:
+
+
+```python
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import normalize
+import scipy.io as sio
+import matplotlib.image as image
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+
+
+```python
+gray = normalize(gray)
+```
+
+
+```python
+plt.imshow(gray)
+```
+
+
+
+
+    <matplotlib.image.AxesImage at 0x23993682160>
+
+
+
+
+![png](output_122_1.png)
+
+
+
+```python
+pca = PCA(.99)
+lower_dimension_data = pca.fit_transform(gray)
+```
+
+
+```python
+lower_dimension_data.shape
+```
+
+
+
+
+    (256, 45)
+
+
+
+
+```python
+approximation = pca.inverse_transform(lower_dimension_data)
+approximation.shape
+```
+
+
+
+
+    (256, 256)
+
+
+
+
+```python
+approximation = approximation.reshape(-1,32,32)
+gray = gray.reshape(-1,32,32)
+```
+
+
+```python
+for i in range(0,gray.shape[0]):
+    gray[i,] = gray[i,].T
+    approximation[i,] = approximation[i,].T
+    
+fig4, axarr = plt.subplots(3,2,figsize=(8,8))
+axarr[0,0].imshow(gray[0,],cmap='gray')
+axarr[0,0].set_title('Original Image')
+axarr[0,0].axis('off')
+axarr[0,1].imshow(approximation[0,],cmap='gray')
+axarr[0,1].set_title('99% Variation')
+axarr[0,1].axis('off')
+axarr[1,0].imshow(gray[1,],cmap='gray')
+axarr[1,0].set_title('Original Image')
+axarr[1,0].axis('off')
+axarr[1,1].imshow(approximation[1,],cmap='gray')
+axarr[1,1].set_title('99% Variation')
+axarr[1,1].axis('off')
+axarr[2,0].imshow(gray[2,],cmap='gray')
+axarr[2,0].set_title('Original Image')
+axarr[2,0].axis('off')
+axarr[2,1].imshow(approximation[2,],cmap='gray')
+axarr[2,1].set_title('99% variation')
+axarr[2,1].axis('off')
+plt.show()
+```
+
+
+![png](output_127_0.png)
+
