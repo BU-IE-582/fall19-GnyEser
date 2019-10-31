@@ -3218,7 +3218,7 @@ plt.imshow(image)
 
 
 
-    <matplotlib.image.AxesImage at 0x2398da1f208>
+    <matplotlib.image.AxesImage at 0x22e69eafe10>
 
 
 
@@ -3278,7 +3278,7 @@ plt.imshow(img)
 
 
 
-    <matplotlib.image.AxesImage at 0x23991573668>
+    <matplotlib.image.AxesImage at 0x22e6b2446a0>
 
 
 
@@ -3300,7 +3300,7 @@ ax3.imshow(b)
 
 
 
-    <matplotlib.image.AxesImage at 0x2398ddf77f0>
+    <matplotlib.image.AxesImage at 0x22e69ccdb00>
 
 
 
@@ -3319,7 +3319,7 @@ plt.imshow(gray)
 
 
 
-    <matplotlib.image.AxesImage at 0x23991626668>
+    <matplotlib.image.AxesImage at 0x22e69cf1cc0>
 
 
 
@@ -3335,13 +3335,13 @@ gray
 
 
 
-    array([[199, 205, 225, ..., 251, 251, 252],
-           [197, 205, 216, ..., 252, 252, 252],
-           [192, 204, 208, ..., 252, 252, 251],
+    array([[201, 205, 224, ..., 252, 252, 252],
+           [198, 205, 217, ..., 251, 252, 252],
+           [193, 205, 208, ..., 252, 252, 253],
            ...,
-           [ 79,  79,  80, ..., 157, 157, 158],
-           [ 81,  79,  78, ..., 158, 156, 168],
-           [ 79,  77,  75, ..., 168, 164, 158]], dtype=uint8)
+           [ 80,  78,  79, ..., 158, 156, 158],
+           [ 80,  80,  77, ..., 157, 156, 167],
+           [ 80,  78,  76, ..., 168, 162, 158]], dtype=uint8)
 
 
 
@@ -3370,7 +3370,7 @@ plt.imshow(gray)
 
 
 
-    <matplotlib.image.AxesImage at 0x23993682160>
+    <matplotlib.image.AxesImage at 0x22e6a031048>
 
 
 
@@ -3380,7 +3380,7 @@ plt.imshow(gray)
 
 
 ```python
-pca = PCA(.99)
+pca = PCA(.25)
 lower_dimension_data = pca.fit_transform(gray)
 ```
 
@@ -3392,7 +3392,7 @@ lower_dimension_data.shape
 
 
 
-    (256, 45)
+    (256, 1)
 
 
 
@@ -3411,9 +3411,21 @@ approximation.shape
 
 
 ```python
-approximation = approximation.reshape(-1,32,32)
-gray = gray.reshape(-1,32,32)
+approximation = approximation.reshape(1,256,256)
+gray = gray.reshape(1,256,256)
 ```
+
+
+```python
+gray.shape
+```
+
+
+
+
+    (1, 256, 256)
+
+
 
 
 ```python
@@ -3421,28 +3433,16 @@ for i in range(0,gray.shape[0]):
     gray[i,] = gray[i,].T
     approximation[i,] = approximation[i,].T
     
-fig4, axarr = plt.subplots(3,2,figsize=(8,8))
+fig4, axarr = plt.subplots(2,2,figsize=(8,8))
 axarr[0,0].imshow(gray[0,],cmap='gray')
 axarr[0,0].set_title('Original Image')
 axarr[0,0].axis('off')
 axarr[0,1].imshow(approximation[0,],cmap='gray')
-axarr[0,1].set_title('99% Variation')
+axarr[0,1].set_title('25% Variation')
 axarr[0,1].axis('off')
-axarr[1,0].imshow(gray[1,],cmap='gray')
-axarr[1,0].set_title('Original Image')
-axarr[1,0].axis('off')
-axarr[1,1].imshow(approximation[1,],cmap='gray')
-axarr[1,1].set_title('99% Variation')
-axarr[1,1].axis('off')
-axarr[2,0].imshow(gray[2,],cmap='gray')
-axarr[2,0].set_title('Original Image')
-axarr[2,0].axis('off')
-axarr[2,1].imshow(approximation[2,],cmap='gray')
-axarr[2,1].set_title('99% variation')
-axarr[2,1].axis('off')
 plt.show()
 ```
 
 
-![png](output_144_0.png)
+![png](output_145_0.png)
 
