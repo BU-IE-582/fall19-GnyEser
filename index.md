@@ -2652,7 +2652,7 @@ plt.show()
 ![png](output_97_0.png)
 
 
-## Homework 2
+# Homework 2
 
 
 ```python
@@ -2661,6 +2661,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 ```
+
+## Task 1
 
 Column 1 --> Bag Class
 
@@ -2844,6 +2846,362 @@ data.head()
 
 
 
+
+```python
+from sklearn.preprocessing import StandardScaler
+x = data.loc[:,2:167]
+y = data.loc[:,0]
+```
+
+### Let's separate the independent features and dependent class column:
+
+
+```python
+x.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>...</th>
+      <th>158</th>
+      <th>159</th>
+      <th>160</th>
+      <th>161</th>
+      <th>162</th>
+      <th>163</th>
+      <th>164</th>
+      <th>165</th>
+      <th>166</th>
+      <th>167</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>42</td>
+      <td>-198</td>
+      <td>-109</td>
+      <td>-75</td>
+      <td>-117</td>
+      <td>11</td>
+      <td>23</td>
+      <td>-88</td>
+      <td>-28</td>
+      <td>-27</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-74</td>
+      <td>-129</td>
+      <td>-120</td>
+      <td>-38</td>
+      <td>30</td>
+      <td>48</td>
+      <td>-37</td>
+      <td>6</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>42</td>
+      <td>-191</td>
+      <td>-142</td>
+      <td>-65</td>
+      <td>-117</td>
+      <td>55</td>
+      <td>49</td>
+      <td>-170</td>
+      <td>-45</td>
+      <td>5</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-302</td>
+      <td>60</td>
+      <td>-120</td>
+      <td>-39</td>
+      <td>31</td>
+      <td>48</td>
+      <td>-37</td>
+      <td>5</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>42</td>
+      <td>-191</td>
+      <td>-142</td>
+      <td>-75</td>
+      <td>-117</td>
+      <td>11</td>
+      <td>49</td>
+      <td>-161</td>
+      <td>-45</td>
+      <td>-28</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-73</td>
+      <td>-127</td>
+      <td>-120</td>
+      <td>-38</td>
+      <td>30</td>
+      <td>48</td>
+      <td>-37</td>
+      <td>5</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>42</td>
+      <td>-198</td>
+      <td>-110</td>
+      <td>-65</td>
+      <td>-117</td>
+      <td>55</td>
+      <td>23</td>
+      <td>-95</td>
+      <td>-28</td>
+      <td>5</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-302</td>
+      <td>60</td>
+      <td>-120</td>
+      <td>-39</td>
+      <td>30</td>
+      <td>48</td>
+      <td>-37</td>
+      <td>6</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>42</td>
+      <td>-198</td>
+      <td>-102</td>
+      <td>-75</td>
+      <td>-117</td>
+      <td>10</td>
+      <td>24</td>
+      <td>-87</td>
+      <td>-28</td>
+      <td>-28</td>
+      <td>...</td>
+      <td>-238</td>
+      <td>-73</td>
+      <td>-127</td>
+      <td>51</td>
+      <td>128</td>
+      <td>144</td>
+      <td>43</td>
+      <td>-30</td>
+      <td>14</td>
+      <td>26</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 166 columns</p>
+</div>
+
+
+
+
+```python
+y.head()
+```
+
+
+
+
+    0    1
+    1    1
+    2    1
+    3    1
+    4    1
+    Name: 0, dtype: int64
+
+
+
+#### Than we need to standardize these independent features' values:
+
+
+```python
+x = StandardScaler().fit_transform(x)
+```
+
+
+```python
+x
+```
+
+
+
+
+    array([[ 0.1809131 , -0.88252743, -0.43062779, ..., -0.17946317,
+             0.55638614, -0.06861517],
+           [ 0.1809131 , -0.80318093, -0.90819777, ..., -0.17946317,
+             0.53912936, -0.06861517],
+           [ 0.1809131 , -0.80318093, -0.90819777, ..., -0.17946317,
+             0.53912936, -0.05014186],
+           ...,
+           [ 0.2362567 ,  0.20565318,  0.85736399, ..., -0.17946317,
+             0.12496664, -1.28785397],
+           [ 0.01488231,  0.70440263,  1.53753942, ...,  0.38295103,
+             0.5046158 ,  0.74421069],
+           [ 0.73434907, -0.0097159 ,  0.79947672, ...,  1.25781757,
+             0.65992682,  1.15062363]])
+
+
+
+#### Than we import PCA library for python, we choose n = 2 as we want to reduce the number of components to 2:
+
+
+```python
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+```
+
+
+```python
+principalComponents = pca.fit_transform(x)
+```
+
+
+```python
+columns = data[1].unique()
+```
+
+
+```python
+principalDf = pd.DataFrame(data = principalComponents
+             , columns = ["principal_component_1", "principal_component_2"])
+```
+
+
+```python
+finalDf = pd.concat([principalDf, data[0]], axis = 1)
+```
+
+
+```python
+finalDf.tail()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>principal_component_1</th>
+      <th>principal_component_2</th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>471</th>
+      <td>-5.253664</td>
+      <td>-1.294476</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>472</th>
+      <td>-6.833537</td>
+      <td>-0.135816</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>473</th>
+      <td>10.587193</td>
+      <td>-2.892693</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>474</th>
+      <td>-4.003161</td>
+      <td>-0.307099</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>475</th>
+      <td>10.507496</td>
+      <td>-2.668611</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+fig = plt.figure(figsize = (8,8))
+ax = fig.add_subplot(1,1,1) 
+ax.set_xlabel('Principal Component 1', fontsize = 15)
+ax.set_ylabel('Principal Component 2', fontsize = 15)
+ax.set_title('2 component PCA', fontsize = 20)
+targets = [0, 1]
+colors = ['r', 'g']
+for target, color in zip(targets,colors):
+    indicesToKeep = finalDf[0] == target
+    ax.scatter(finalDf.loc[indicesToKeep, 'principal_component_1']
+               , finalDf.loc[indicesToKeep, 'principal_component_2']
+               , c = color
+               , s = 50)
+ax.legend(targets)
+ax.grid()
+```
+
+
+![png](output_117_0.png)
+
+
+This seem like, it is not a good transformation approach for classifying bags.
+
 ## Task 2
 
 ### Let's display our 256x256 photo
@@ -2865,7 +3223,7 @@ plt.imshow(image)
 
 
 
-![png](output_104_1.png)
+![png](output_121_1.png)
 
 
 
@@ -2925,7 +3283,7 @@ plt.imshow(img)
 
 
 
-![png](output_113_1.png)
+![png](output_130_1.png)
 
 
 ### Each channel of the Noisy Image
@@ -2947,7 +3305,7 @@ ax3.imshow(b)
 
 
 
-![png](output_115_1.png)
+![png](output_132_1.png)
 
 
 ### Now lets transform our noisy image to grayscale format:
@@ -2966,7 +3324,7 @@ plt.imshow(gray)
 
 
 
-![png](output_117_1.png)
+![png](output_134_1.png)
 
 
 
@@ -3017,7 +3375,7 @@ plt.imshow(gray)
 
 
 
-![png](output_122_1.png)
+![png](output_139_1.png)
 
 
 
@@ -3086,5 +3444,5 @@ plt.show()
 ```
 
 
-![png](output_127_0.png)
+![png](output_144_0.png)
 
