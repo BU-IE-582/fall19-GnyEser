@@ -1,5 +1,5 @@
 
-# Homework 1 and 2
+# Homework 1 and 2 and 3
 
 Importing necessary libraries.
 
@@ -3446,3 +3446,2898 @@ plt.show()
 
 ![png](output_145_0.png)
 
+
+## Homework 3
+
+
+```python
+import pandas as pd
+import numpy as np
+```
+
+
+```python
+data = pd.read_csv("consumption.csv")
+data.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th>Tuketim Miktari (MWh)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>01.01.2016</td>
+      <td>00:00</td>
+      <td>26.277,24</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>01.01.2016</td>
+      <td>01:00</td>
+      <td>24.991,82</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>01.01.2016</td>
+      <td>02:00</td>
+      <td>23.532,61</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>01.01.2016</td>
+      <td>03:00</td>
+      <td>22.464,78</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>01.01.2016</td>
+      <td>04:00</td>
+      <td>22.002,91</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+In order to see data better, we make date and hour index.
+
+
+```python
+data.set_index(["Tarih","Saat"], inplace = True)
+```
+
+
+```python
+data.head(10)
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Tuketim Miktari (MWh)</th>
+    </tr>
+    <tr>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="10" valign="top">01.01.2016</th>
+      <th>00:00</th>
+      <td>26.277,24</td>
+    </tr>
+    <tr>
+      <th>01:00</th>
+      <td>24.991,82</td>
+    </tr>
+    <tr>
+      <th>02:00</th>
+      <td>23.532,61</td>
+    </tr>
+    <tr>
+      <th>03:00</th>
+      <td>22.464,78</td>
+    </tr>
+    <tr>
+      <th>04:00</th>
+      <td>22.002,91</td>
+    </tr>
+    <tr>
+      <th>05:00</th>
+      <td>21.957,08</td>
+    </tr>
+    <tr>
+      <th>06:00</th>
+      <td>22.203,54</td>
+    </tr>
+    <tr>
+      <th>07:00</th>
+      <td>21.844,16</td>
+    </tr>
+    <tr>
+      <th>08:00</th>
+      <td>23.094,73</td>
+    </tr>
+    <tr>
+      <th>09:00</th>
+      <td>25.202,27</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+We change the column name of the consumption in order to get the data easier
+
+
+```python
+data.rename(columns={'Tuketim Miktari (MWh)':'tuketim'},inplace=True)
+data.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>tuketim</th>
+    </tr>
+    <tr>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">01.01.2016</th>
+      <th>00:00</th>
+      <td>26.277,24</td>
+    </tr>
+    <tr>
+      <th>01:00</th>
+      <td>24.991,82</td>
+    </tr>
+    <tr>
+      <th>02:00</th>
+      <td>23.532,61</td>
+    </tr>
+    <tr>
+      <th>03:00</th>
+      <td>22.464,78</td>
+    </tr>
+    <tr>
+      <th>04:00</th>
+      <td>22.002,91</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+We turn column 'tuketim' into float values.
+
+
+```python
+data['tuketim']  = [float(i.replace(".","").replace(",",".")) for i in data["tuketim"]]
+```
+
+
+```python
+type(data['tuketim'][0])
+```
+
+
+
+
+    numpy.float64
+
+
+
+## PART a)
+
+
+```python
+# Last weeks fridays consumption lag168 data
+lag168 = data[-192:-168]
+lag168.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>tuketim</th>
+    </tr>
+    <tr>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">25.10.2019</th>
+      <th>00:00</th>
+      <td>29563.43</td>
+    </tr>
+    <tr>
+      <th>01:00</th>
+      <td>28242.90</td>
+    </tr>
+    <tr>
+      <th>02:00</th>
+      <td>27258.74</td>
+    </tr>
+    <tr>
+      <th>03:00</th>
+      <td>26739.84</td>
+    </tr>
+    <tr>
+      <th>04:00</th>
+      <td>26555.35</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+# Consumption of lag48
+lag48 = data[-72:-48]
+lag48.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>tuketim</th>
+    </tr>
+    <tr>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">30.10.2019</th>
+      <th>00:00</th>
+      <td>27154.21</td>
+    </tr>
+    <tr>
+      <th>01:00</th>
+      <td>26157.42</td>
+    </tr>
+    <tr>
+      <th>02:00</th>
+      <td>25373.88</td>
+    </tr>
+    <tr>
+      <th>03:00</th>
+      <td>24911.43</td>
+    </tr>
+    <tr>
+      <th>04:00</th>
+      <td>24836.11</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+# The data we are going to test: (1th November 2019)
+test = data[-24:]
+test.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>tuketim</th>
+    </tr>
+    <tr>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">01.11.2019</th>
+      <th>00:00</th>
+      <td>29417.56</td>
+    </tr>
+    <tr>
+      <th>01:00</th>
+      <td>28133.75</td>
+    </tr>
+    <tr>
+      <th>02:00</th>
+      <td>27358.60</td>
+    </tr>
+    <tr>
+      <th>03:00</th>
+      <td>26780.09</td>
+    </tr>
+    <tr>
+      <th>04:00</th>
+      <td>26511.54</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+**MAPE for lag168**
+
+![mape.jpeg](attachment:mape.jpeg)
+
+
+```python
+toplam = float(0)
+print("Actual Values || Forecast Values\n")
+
+for i in range(len(lag168['tuketim'])):
+    print(test['tuketim'][i] , '||' , lag168['tuketim'][i])
+    toplam += abs(test['tuketim'][i] - lag168['tuketim'][i]) / test['tuketim'][i]
+
+
+print("\n"+ "Sum:     " + str(toplam))
+print("MAPE Error for lag168:   " + str(toplam/len(lag168['tuketim'])))
+```
+
+    Actual Values || Forecast Values
+    
+    29417.56 || 29563.43
+    28133.75 || 28242.9
+    27358.6 || 27258.74
+    26780.09 || 26739.84
+    26511.54 || 26555.35
+    27002.74 || 26857.36
+    27945.43 || 27783.77
+    29120.27 || 28969.45
+    32815.46 || 32153.21
+    34569.09 || 33615.22
+    35091.43 || 33398.5
+    35416.33 || 33542.88
+    33184.81 || 30839.72
+    33549.94 || 30920.91
+    35732.88 || 33019.99
+    35859.75 || 33476.62
+    36268.51 || 34304.06
+    37011.89 || 35973.89
+    37199.91 || 36302.11
+    36056.96 || 35698.7
+    35130.19 || 34820.93
+    33947.64 || 33659.48
+    32877.69 || 32696.81
+    31590.75 || 30942.64
+    
+    Sum:     0.631903428588055
+    MAPE Error for lag168:   0.026329309524502294
+    
+
+
+```python
+toplam = float(0)
+print("Actual Values || Forecast Values\n")
+
+for i in range(len(lag48['tuketim'])):
+    print(test['tuketim'][i] , '||' , lag48['tuketim'][i])
+    toplam += abs(test['tuketim'][i] - lag48['tuketim'][i]) / test['tuketim'][i]
+
+
+print("\n"+ "Sum:     " + str(toplam))
+print("MAPE Error for lag48:   " + str(toplam/len(lag48['tuketim'])))
+```
+
+    Actual Values || Forecast Values
+    
+    29417.56 || 27154.21
+    28133.75 || 26157.42
+    27358.6 || 25373.88
+    26780.09 || 24911.43
+    26511.54 || 24836.11
+    27002.74 || 25233.76
+    27945.43 || 26296.0
+    29120.27 || 27575.6
+    32815.46 || 31667.27
+    34569.09 || 33138.17
+    35091.43 || 32926.25
+    35416.33 || 33122.35
+    33184.81 || 31518.65
+    33549.94 || 31895.21
+    35732.88 || 33050.83
+    35859.75 || 33464.69
+    36268.51 || 34612.24
+    37011.89 || 36082.1
+    37199.91 || 36936.24
+    36056.96 || 36219.71
+    35130.19 || 35136.55
+    33947.64 || 34155.15
+    32877.69 || 32878.23
+    31590.75 || 31456.46
+    
+    Sum:     1.0674682056215312
+    MAPE Error for lag48:   0.04447784190089713
+    
+
+## Part b)
+
+We already have the test dataset as follows:
+
+
+```python
+test
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>tuketim</th>
+    </tr>
+    <tr>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="24" valign="top">01.11.2019</th>
+      <th>00:00</th>
+      <td>29417.56</td>
+    </tr>
+    <tr>
+      <th>01:00</th>
+      <td>28133.75</td>
+    </tr>
+    <tr>
+      <th>02:00</th>
+      <td>27358.60</td>
+    </tr>
+    <tr>
+      <th>03:00</th>
+      <td>26780.09</td>
+    </tr>
+    <tr>
+      <th>04:00</th>
+      <td>26511.54</td>
+    </tr>
+    <tr>
+      <th>05:00</th>
+      <td>27002.74</td>
+    </tr>
+    <tr>
+      <th>06:00</th>
+      <td>27945.43</td>
+    </tr>
+    <tr>
+      <th>07:00</th>
+      <td>29120.27</td>
+    </tr>
+    <tr>
+      <th>08:00</th>
+      <td>32815.46</td>
+    </tr>
+    <tr>
+      <th>09:00</th>
+      <td>34569.09</td>
+    </tr>
+    <tr>
+      <th>10:00</th>
+      <td>35091.43</td>
+    </tr>
+    <tr>
+      <th>11:00</th>
+      <td>35416.33</td>
+    </tr>
+    <tr>
+      <th>12:00</th>
+      <td>33184.81</td>
+    </tr>
+    <tr>
+      <th>13:00</th>
+      <td>33549.94</td>
+    </tr>
+    <tr>
+      <th>14:00</th>
+      <td>35732.88</td>
+    </tr>
+    <tr>
+      <th>15:00</th>
+      <td>35859.75</td>
+    </tr>
+    <tr>
+      <th>16:00</th>
+      <td>36268.51</td>
+    </tr>
+    <tr>
+      <th>17:00</th>
+      <td>37011.89</td>
+    </tr>
+    <tr>
+      <th>18:00</th>
+      <td>37199.91</td>
+    </tr>
+    <tr>
+      <th>19:00</th>
+      <td>36056.96</td>
+    </tr>
+    <tr>
+      <th>20:00</th>
+      <td>35130.19</td>
+    </tr>
+    <tr>
+      <th>21:00</th>
+      <td>33947.64</td>
+    </tr>
+    <tr>
+      <th>22:00</th>
+      <td>32877.69</td>
+    </tr>
+    <tr>
+      <th>23:00</th>
+      <td>31590.75</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+**Let's start over to reset indexing:**
+
+
+```python
+cons = pd.read_csv('consumption.csv')
+cons.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Tarih</th>
+      <th>Saat</th>
+      <th>Tuketim Miktari (MWh)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>01.01.2016</td>
+      <td>00:00</td>
+      <td>26.277,24</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>01.01.2016</td>
+      <td>01:00</td>
+      <td>24.991,82</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>01.01.2016</td>
+      <td>02:00</td>
+      <td>23.532,61</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>01.01.2016</td>
+      <td>03:00</td>
+      <td>22.464,78</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>01.01.2016</td>
+      <td>04:00</td>
+      <td>22.002,91</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+### Year - Month - Day
+
+Let's change date column to datetime format properly, so that we can filter columns by date without any problem:
+
+
+```python
+cons.rename(columns={'Tuketim Miktari (MWh)':'tuketim'},inplace=True)
+cons.rename(columns={'Tarih':'tarih'},inplace=True)
+cons['tarih'] = pd.to_datetime(cons['tarih'], format='%d.%m.%Y')
+cons['tuketim']  = [float(i.replace(".","").replace(",",".")) for i in cons["tuketim"]]
+```
+
+Since our dataset starts from the date **2016-01-01**, we wont be able to find lag168 for the first week, so I would like to shift the start of our training data for 1 week, such that it starts from **2016-01-09:**
+
+
+```python
+train = cons[cons['tarih'] > '2016-01-08']
+```
+
+
+```python
+train.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>192</th>
+      <td>2016-01-09</td>
+      <td>00:00</td>
+      <td>29906.93</td>
+    </tr>
+    <tr>
+      <th>193</th>
+      <td>2016-01-09</td>
+      <td>01:00</td>
+      <td>28061.98</td>
+    </tr>
+    <tr>
+      <th>194</th>
+      <td>2016-01-09</td>
+      <td>02:00</td>
+      <td>26808.78</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>2016-01-09</td>
+      <td>03:00</td>
+      <td>25798.80</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>2016-01-09</td>
+      <td>04:00</td>
+      <td>25820.46</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+cons.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2016-01-01</td>
+      <td>00:00</td>
+      <td>26277.24</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2016-01-01</td>
+      <td>01:00</td>
+      <td>24991.82</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2016-01-01</td>
+      <td>02:00</td>
+      <td>23532.61</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2016-01-01</td>
+      <td>03:00</td>
+      <td>22464.78</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2016-01-01</td>
+      <td>04:00</td>
+      <td>22002.91</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+from datetime import datetime, timedelta
+```
+
+We add another column to indicate the lag dates: lag48 dates first, it will be obviously 2 days earlier than the main date.
+
+
+```python
+lag48_dates = train['tarih'] - timedelta(days=2)
+```
+
+
+```python
+train['lag48_dates'] = lag48_dates
+```
+
+    c:\users\gunay.eser\python\python36\lib\site-packages\ipykernel_launcher.py:1: SettingWithCopyWarning: 
+    A value is trying to be set on a copy of a slice from a DataFrame.
+    Try using .loc[row_indexer,col_indexer] = value instead
+    
+    See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+      """Entry point for launching an IPython kernel.
+    
+
+
+```python
+train.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+      <th>lag48_dates</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>192</th>
+      <td>2016-01-09</td>
+      <td>00:00</td>
+      <td>29906.93</td>
+      <td>2016-01-07</td>
+    </tr>
+    <tr>
+      <th>193</th>
+      <td>2016-01-09</td>
+      <td>01:00</td>
+      <td>28061.98</td>
+      <td>2016-01-07</td>
+    </tr>
+    <tr>
+      <th>194</th>
+      <td>2016-01-09</td>
+      <td>02:00</td>
+      <td>26808.78</td>
+      <td>2016-01-07</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>2016-01-09</td>
+      <td>03:00</td>
+      <td>25798.80</td>
+      <td>2016-01-07</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>2016-01-09</td>
+      <td>04:00</td>
+      <td>25820.46</td>
+      <td>2016-01-07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+**Refresh the index:**
+
+Refreshing index is very important to avoid any problems when creating new columns or concating, merging etc.
+
+
+```python
+train = train.reset_index(drop=True)
+```
+
+**Get lage48_dates into a python list:**
+
+So that, looping into that list, we will extract the consumption of those dates, and add that data as another columns.
+
+
+```python
+dates = list()
+for i in train.lag48_dates.unique():
+    dates.append(str(i).split('T')[0])
+```
+
+Here we extract the data with the matching date:
+
+
+```python
+lcons = pd.DataFrame()
+for i in dates:
+    lcons = pd.concat([lcons, cons[cons['tarih'] == i ]])
+```
+
+Rename the columns and reseting index:
+
+
+```python
+lcons.rename({'tarih': 'lag48_dates', 'tuketim': 'lag48'}, axis=1, inplace=True)
+```
+
+
+```python
+lcons = lcons.reset_index(drop=True) 
+```
+
+And add as a column to or training dataset:
+
+
+```python
+train['lag48'] = pd.Series(lcons['lag48'])
+```
+
+**Looks like we added the lag48 values as a column to our train dataset:**
+
+
+```python
+train.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+      <th>lag48_dates</th>
+      <th>lag48</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2016-01-09</td>
+      <td>00:00</td>
+      <td>29906.93</td>
+      <td>2016-01-07</td>
+      <td>28763.95</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2016-01-09</td>
+      <td>01:00</td>
+      <td>28061.98</td>
+      <td>2016-01-07</td>
+      <td>27284.84</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2016-01-09</td>
+      <td>02:00</td>
+      <td>26808.78</td>
+      <td>2016-01-07</td>
+      <td>26321.95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2016-01-09</td>
+      <td>03:00</td>
+      <td>25798.80</td>
+      <td>2016-01-07</td>
+      <td>25748.49</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2016-01-09</td>
+      <td>04:00</td>
+      <td>25820.46</td>
+      <td>2016-01-07</td>
+      <td>25636.58</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+train.tail()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+      <th>lag48_dates</th>
+      <th>lag48</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>33403</th>
+      <td>2019-11-01</td>
+      <td>19:00</td>
+      <td>36056.96</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33404</th>
+      <td>2019-11-01</td>
+      <td>20:00</td>
+      <td>35130.19</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33405</th>
+      <td>2019-11-01</td>
+      <td>21:00</td>
+      <td>33947.64</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33406</th>
+      <td>2019-11-01</td>
+      <td>22:00</td>
+      <td>32877.69</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33407</th>
+      <td>2019-11-01</td>
+      <td>23:00</td>
+      <td>31590.75</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+**Now, let's add lag168 data to the train dataset:**
+
+Same procedure as we did in lag48:
+
+
+```python
+lag168_dates = train['tarih'] - timedelta(days=7)
+```
+
+
+```python
+train['lag168_dates'] = lag168_dates
+```
+
+
+```python
+dates = list()
+for i in train.lag168_dates.unique():
+    dates.append(str(i).split('T')[0])
+```
+
+
+```python
+lcons2 = pd.DataFrame()
+for i in dates:
+    lcons2 = pd.concat([lcons2, cons[cons['tarih'] == i ]])
+```
+
+
+```python
+lcons2.rename({'tarih': 'lag168_dates', 'tuketim': 'lag168'}, axis=1, inplace=True)
+```
+
+
+```python
+lcons2 = lcons2.reset_index(drop=True) 
+```
+
+
+```python
+lcons2.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>lag168_dates</th>
+      <th>Saat</th>
+      <th>lag168</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2016-01-02</td>
+      <td>00:00</td>
+      <td>26224.60</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2016-01-02</td>
+      <td>01:00</td>
+      <td>24708.58</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2016-01-02</td>
+      <td>02:00</td>
+      <td>23771.58</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2016-01-02</td>
+      <td>03:00</td>
+      <td>22921.29</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2016-01-02</td>
+      <td>04:00</td>
+      <td>22870.89</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+train['lag168'] = pd.Series(lcons2['lag168'])
+```
+
+### Know we have our long format of the training dataset with both lag48 and lag168 datas in it:
+
+
+```python
+train
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+      <th>lag48_dates</th>
+      <th>lag48</th>
+      <th>lag168_dates</th>
+      <th>lag168</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2016-01-09</td>
+      <td>00:00</td>
+      <td>29906.93</td>
+      <td>2016-01-07</td>
+      <td>28763.95</td>
+      <td>2016-01-02</td>
+      <td>26224.60</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2016-01-09</td>
+      <td>01:00</td>
+      <td>28061.98</td>
+      <td>2016-01-07</td>
+      <td>27284.84</td>
+      <td>2016-01-02</td>
+      <td>24708.58</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2016-01-09</td>
+      <td>02:00</td>
+      <td>26808.78</td>
+      <td>2016-01-07</td>
+      <td>26321.95</td>
+      <td>2016-01-02</td>
+      <td>23771.58</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2016-01-09</td>
+      <td>03:00</td>
+      <td>25798.80</td>
+      <td>2016-01-07</td>
+      <td>25748.49</td>
+      <td>2016-01-02</td>
+      <td>22921.29</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2016-01-09</td>
+      <td>04:00</td>
+      <td>25820.46</td>
+      <td>2016-01-07</td>
+      <td>25636.58</td>
+      <td>2016-01-02</td>
+      <td>22870.89</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2016-01-09</td>
+      <td>05:00</td>
+      <td>26035.77</td>
+      <td>2016-01-07</td>
+      <td>25932.52</td>
+      <td>2016-01-02</td>
+      <td>23325.63</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2016-01-09</td>
+      <td>06:00</td>
+      <td>26451.24</td>
+      <td>2016-01-07</td>
+      <td>26963.74</td>
+      <td>2016-01-02</td>
+      <td>23604.98</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2016-01-09</td>
+      <td>07:00</td>
+      <td>26853.42</td>
+      <td>2016-01-07</td>
+      <td>28444.83</td>
+      <td>2016-01-02</td>
+      <td>24022.70</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2016-01-09</td>
+      <td>08:00</td>
+      <td>30627.32</td>
+      <td>2016-01-07</td>
+      <td>32804.27</td>
+      <td>2016-01-02</td>
+      <td>26930.48</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2016-01-09</td>
+      <td>09:00</td>
+      <td>33468.25</td>
+      <td>2016-01-07</td>
+      <td>35608.30</td>
+      <td>2016-01-02</td>
+      <td>30043.60</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2016-01-09</td>
+      <td>10:00</td>
+      <td>34792.84</td>
+      <td>2016-01-07</td>
+      <td>36500.83</td>
+      <td>2016-01-02</td>
+      <td>32102.38</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2016-01-09</td>
+      <td>11:00</td>
+      <td>35382.85</td>
+      <td>2016-01-07</td>
+      <td>37350.92</td>
+      <td>2016-01-02</td>
+      <td>33431.89</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2016-01-09</td>
+      <td>12:00</td>
+      <td>34131.49</td>
+      <td>2016-01-07</td>
+      <td>35900.99</td>
+      <td>2016-01-02</td>
+      <td>32910.61</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2016-01-09</td>
+      <td>13:00</td>
+      <td>33827.99</td>
+      <td>2016-01-07</td>
+      <td>36800.39</td>
+      <td>2016-01-02</td>
+      <td>32887.61</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2016-01-09</td>
+      <td>14:00</td>
+      <td>33524.80</td>
+      <td>2016-01-07</td>
+      <td>37376.83</td>
+      <td>2016-01-02</td>
+      <td>32796.18</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2016-01-09</td>
+      <td>15:00</td>
+      <td>32951.39</td>
+      <td>2016-01-07</td>
+      <td>37100.43</td>
+      <td>2016-01-02</td>
+      <td>32594.55</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2016-01-09</td>
+      <td>16:00</td>
+      <td>33655.89</td>
+      <td>2016-01-07</td>
+      <td>37668.65</td>
+      <td>2016-01-02</td>
+      <td>33358.47</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2016-01-09</td>
+      <td>17:00</td>
+      <td>35045.14</td>
+      <td>2016-01-07</td>
+      <td>37906.99</td>
+      <td>2016-01-02</td>
+      <td>34387.95</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2016-01-09</td>
+      <td>18:00</td>
+      <td>34407.27</td>
+      <td>2016-01-07</td>
+      <td>35841.62</td>
+      <td>2016-01-02</td>
+      <td>33591.26</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2016-01-09</td>
+      <td>19:00</td>
+      <td>33494.32</td>
+      <td>2016-01-07</td>
+      <td>34621.65</td>
+      <td>2016-01-02</td>
+      <td>32648.83</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2016-01-09</td>
+      <td>20:00</td>
+      <td>32624.31</td>
+      <td>2016-01-07</td>
+      <td>33784.72</td>
+      <td>2016-01-02</td>
+      <td>31897.73</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2016-01-09</td>
+      <td>21:00</td>
+      <td>32097.79</td>
+      <td>2016-01-07</td>
+      <td>32638.14</td>
+      <td>2016-01-02</td>
+      <td>31049.20</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2016-01-09</td>
+      <td>22:00</td>
+      <td>32176.63</td>
+      <td>2016-01-07</td>
+      <td>32739.98</td>
+      <td>2016-01-02</td>
+      <td>30906.43</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>2016-01-09</td>
+      <td>23:00</td>
+      <td>30760.17</td>
+      <td>2016-01-07</td>
+      <td>31092.87</td>
+      <td>2016-01-02</td>
+      <td>29621.09</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>2016-01-10</td>
+      <td>00:00</td>
+      <td>28890.37</td>
+      <td>2016-01-08</td>
+      <td>28602.02</td>
+      <td>2016-01-03</td>
+      <td>27613.96</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>2016-01-10</td>
+      <td>01:00</td>
+      <td>27133.75</td>
+      <td>2016-01-08</td>
+      <td>27112.37</td>
+      <td>2016-01-03</td>
+      <td>25779.28</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>2016-01-10</td>
+      <td>02:00</td>
+      <td>25656.13</td>
+      <td>2016-01-08</td>
+      <td>25975.34</td>
+      <td>2016-01-03</td>
+      <td>24566.31</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>2016-01-10</td>
+      <td>03:00</td>
+      <td>24937.87</td>
+      <td>2016-01-08</td>
+      <td>25315.55</td>
+      <td>2016-01-03</td>
+      <td>23878.42</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>2016-01-10</td>
+      <td>04:00</td>
+      <td>24538.16</td>
+      <td>2016-01-08</td>
+      <td>25128.15</td>
+      <td>2016-01-03</td>
+      <td>23511.38</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>2016-01-10</td>
+      <td>05:00</td>
+      <td>24616.05</td>
+      <td>2016-01-08</td>
+      <td>25356.22</td>
+      <td>2016-01-03</td>
+      <td>23672.32</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>33378</th>
+      <td>2019-10-31</td>
+      <td>18:00</td>
+      <td>37199.82</td>
+      <td>2019-10-29</td>
+      <td>36936.24</td>
+      <td>2019-10-24</td>
+      <td>36302.11</td>
+    </tr>
+    <tr>
+      <th>33379</th>
+      <td>2019-10-31</td>
+      <td>19:00</td>
+      <td>36104.42</td>
+      <td>2019-10-29</td>
+      <td>36219.71</td>
+      <td>2019-10-24</td>
+      <td>35698.70</td>
+    </tr>
+    <tr>
+      <th>33380</th>
+      <td>2019-10-31</td>
+      <td>20:00</td>
+      <td>35263.31</td>
+      <td>2019-10-29</td>
+      <td>35136.55</td>
+      <td>2019-10-24</td>
+      <td>34820.93</td>
+    </tr>
+    <tr>
+      <th>33381</th>
+      <td>2019-10-31</td>
+      <td>21:00</td>
+      <td>34133.64</td>
+      <td>2019-10-29</td>
+      <td>34155.15</td>
+      <td>2019-10-24</td>
+      <td>33659.48</td>
+    </tr>
+    <tr>
+      <th>33382</th>
+      <td>2019-10-31</td>
+      <td>22:00</td>
+      <td>32865.22</td>
+      <td>2019-10-29</td>
+      <td>32878.23</td>
+      <td>2019-10-24</td>
+      <td>32696.81</td>
+    </tr>
+    <tr>
+      <th>33383</th>
+      <td>2019-10-31</td>
+      <td>23:00</td>
+      <td>31399.91</td>
+      <td>2019-10-29</td>
+      <td>31456.46</td>
+      <td>2019-10-24</td>
+      <td>30942.64</td>
+    </tr>
+    <tr>
+      <th>33384</th>
+      <td>2019-11-01</td>
+      <td>00:00</td>
+      <td>29417.56</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33385</th>
+      <td>2019-11-01</td>
+      <td>01:00</td>
+      <td>28133.75</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33386</th>
+      <td>2019-11-01</td>
+      <td>02:00</td>
+      <td>27358.60</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33387</th>
+      <td>2019-11-01</td>
+      <td>03:00</td>
+      <td>26780.09</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33388</th>
+      <td>2019-11-01</td>
+      <td>04:00</td>
+      <td>26511.54</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33389</th>
+      <td>2019-11-01</td>
+      <td>05:00</td>
+      <td>27002.74</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33390</th>
+      <td>2019-11-01</td>
+      <td>06:00</td>
+      <td>27945.43</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33391</th>
+      <td>2019-11-01</td>
+      <td>07:00</td>
+      <td>29120.27</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33392</th>
+      <td>2019-11-01</td>
+      <td>08:00</td>
+      <td>32815.46</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33393</th>
+      <td>2019-11-01</td>
+      <td>09:00</td>
+      <td>34569.09</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33394</th>
+      <td>2019-11-01</td>
+      <td>10:00</td>
+      <td>35091.43</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33395</th>
+      <td>2019-11-01</td>
+      <td>11:00</td>
+      <td>35416.33</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33396</th>
+      <td>2019-11-01</td>
+      <td>12:00</td>
+      <td>33184.81</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33397</th>
+      <td>2019-11-01</td>
+      <td>13:00</td>
+      <td>33549.94</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33398</th>
+      <td>2019-11-01</td>
+      <td>14:00</td>
+      <td>35732.88</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33399</th>
+      <td>2019-11-01</td>
+      <td>15:00</td>
+      <td>35859.75</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33400</th>
+      <td>2019-11-01</td>
+      <td>16:00</td>
+      <td>36268.51</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33401</th>
+      <td>2019-11-01</td>
+      <td>17:00</td>
+      <td>37011.89</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33402</th>
+      <td>2019-11-01</td>
+      <td>18:00</td>
+      <td>37199.91</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33403</th>
+      <td>2019-11-01</td>
+      <td>19:00</td>
+      <td>36056.96</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33404</th>
+      <td>2019-11-01</td>
+      <td>20:00</td>
+      <td>35130.19</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33405</th>
+      <td>2019-11-01</td>
+      <td>21:00</td>
+      <td>33947.64</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33406</th>
+      <td>2019-11-01</td>
+      <td>22:00</td>
+      <td>32877.69</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33407</th>
+      <td>2019-11-01</td>
+      <td>23:00</td>
+      <td>31590.75</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>33408 rows × 7 columns</p>
+</div>
+
+
+
+**As we can see, last 24 rows of the train data is going to be our test dataset:**
+
+So we assign it into a new dataframe named test:
+
+
+```python
+test = train[-24:].copy()
+```
+
+
+```python
+test.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+      <th>lag48_dates</th>
+      <th>lag48</th>
+      <th>lag168_dates</th>
+      <th>lag168</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>33384</th>
+      <td>2019-11-01</td>
+      <td>00:00</td>
+      <td>29417.56</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33385</th>
+      <td>2019-11-01</td>
+      <td>01:00</td>
+      <td>28133.75</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33386</th>
+      <td>2019-11-01</td>
+      <td>02:00</td>
+      <td>27358.60</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33387</th>
+      <td>2019-11-01</td>
+      <td>03:00</td>
+      <td>26780.09</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33388</th>
+      <td>2019-11-01</td>
+      <td>04:00</td>
+      <td>26511.54</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+Reset indexes again:
+
+
+```python
+test = test.reset_index(drop=True)
+test.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+      <th>lag48_dates</th>
+      <th>lag48</th>
+      <th>lag168_dates</th>
+      <th>lag168</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-11-01</td>
+      <td>00:00</td>
+      <td>29417.56</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-11-01</td>
+      <td>01:00</td>
+      <td>28133.75</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-11-01</td>
+      <td>02:00</td>
+      <td>27358.60</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-11-01</td>
+      <td>03:00</td>
+      <td>26780.09</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-11-01</td>
+      <td>04:00</td>
+      <td>26511.54</td>
+      <td>2019-10-30</td>
+      <td>NaN</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+Fill the lag48 and lag168 data as we did with training dataset:
+
+
+```python
+dates = list()
+for i in test.lag48_dates.unique():
+    dates.append(str(i).split('T')[0])
+```
+
+
+```python
+lcons3 = pd.DataFrame()
+for i in dates:
+    lcons3 = pd.concat([lcons3, cons[cons['tarih'] == i ]])
+```
+
+
+```python
+lcons3.rename({'tarih': 'lag48_dates', 'tuketim': 'lag48'}, axis=1, inplace=True)
+```
+
+
+```python
+lcons3 = lcons3.reset_index(drop=True) 
+```
+
+
+```python
+lcons3.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>lag48_dates</th>
+      <th>Saat</th>
+      <th>lag48</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-10-30</td>
+      <td>00:00</td>
+      <td>27154.21</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-10-30</td>
+      <td>01:00</td>
+      <td>26157.42</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-10-30</td>
+      <td>02:00</td>
+      <td>25373.88</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-10-30</td>
+      <td>03:00</td>
+      <td>24911.43</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-10-30</td>
+      <td>04:00</td>
+      <td>24836.11</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+test['lag48'] = pd.Series(lcons3['lag48'])
+```
+
+lag48 is done.
+
+
+```python
+test.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+      <th>lag48_dates</th>
+      <th>lag48</th>
+      <th>lag168_dates</th>
+      <th>lag168</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-11-01</td>
+      <td>00:00</td>
+      <td>29417.56</td>
+      <td>2019-10-30</td>
+      <td>27154.21</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-11-01</td>
+      <td>01:00</td>
+      <td>28133.75</td>
+      <td>2019-10-30</td>
+      <td>26157.42</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-11-01</td>
+      <td>02:00</td>
+      <td>27358.60</td>
+      <td>2019-10-30</td>
+      <td>25373.88</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-11-01</td>
+      <td>03:00</td>
+      <td>26780.09</td>
+      <td>2019-10-30</td>
+      <td>24911.43</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-11-01</td>
+      <td>04:00</td>
+      <td>26511.54</td>
+      <td>2019-10-30</td>
+      <td>24836.11</td>
+      <td>2019-10-25</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+dates = list()
+for i in train.lag168_dates.unique():
+    dates.append(str(i).split('T')[0])
+```
+
+
+```python
+lcons4 = pd.DataFrame()
+for i in dates:
+    lcons4 = pd.concat([lcons4, cons[cons['tarih'] == i ]])
+```
+
+
+```python
+lcons4.rename({'tarih': 'lag168_dates', 'tuketim': 'lag168'}, axis=1, inplace=True)
+```
+
+
+```python
+lcons4 = lcons4.reset_index(drop=True) 
+```
+
+
+```python
+lcons4.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>lag168_dates</th>
+      <th>Saat</th>
+      <th>lag168</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2016-01-02</td>
+      <td>00:00</td>
+      <td>26224.60</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2016-01-02</td>
+      <td>01:00</td>
+      <td>24708.58</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2016-01-02</td>
+      <td>02:00</td>
+      <td>23771.58</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2016-01-02</td>
+      <td>03:00</td>
+      <td>22921.29</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2016-01-02</td>
+      <td>04:00</td>
+      <td>22870.89</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+test['lag168'] = pd.Series(lcons4['lag168'])
+```
+
+lag168 is also done.
+
+### And now our TEST data is ready as well:
+
+
+```python
+test
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tarih</th>
+      <th>Saat</th>
+      <th>tuketim</th>
+      <th>lag48_dates</th>
+      <th>lag48</th>
+      <th>lag168_dates</th>
+      <th>lag168</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-11-01</td>
+      <td>00:00</td>
+      <td>29417.56</td>
+      <td>2019-10-30</td>
+      <td>27154.21</td>
+      <td>2019-10-25</td>
+      <td>26224.60</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-11-01</td>
+      <td>01:00</td>
+      <td>28133.75</td>
+      <td>2019-10-30</td>
+      <td>26157.42</td>
+      <td>2019-10-25</td>
+      <td>24708.58</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-11-01</td>
+      <td>02:00</td>
+      <td>27358.60</td>
+      <td>2019-10-30</td>
+      <td>25373.88</td>
+      <td>2019-10-25</td>
+      <td>23771.58</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-11-01</td>
+      <td>03:00</td>
+      <td>26780.09</td>
+      <td>2019-10-30</td>
+      <td>24911.43</td>
+      <td>2019-10-25</td>
+      <td>22921.29</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-11-01</td>
+      <td>04:00</td>
+      <td>26511.54</td>
+      <td>2019-10-30</td>
+      <td>24836.11</td>
+      <td>2019-10-25</td>
+      <td>22870.89</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2019-11-01</td>
+      <td>05:00</td>
+      <td>27002.74</td>
+      <td>2019-10-30</td>
+      <td>25233.76</td>
+      <td>2019-10-25</td>
+      <td>23325.63</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2019-11-01</td>
+      <td>06:00</td>
+      <td>27945.43</td>
+      <td>2019-10-30</td>
+      <td>26296.00</td>
+      <td>2019-10-25</td>
+      <td>23604.98</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2019-11-01</td>
+      <td>07:00</td>
+      <td>29120.27</td>
+      <td>2019-10-30</td>
+      <td>27575.60</td>
+      <td>2019-10-25</td>
+      <td>24022.70</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2019-11-01</td>
+      <td>08:00</td>
+      <td>32815.46</td>
+      <td>2019-10-30</td>
+      <td>31667.27</td>
+      <td>2019-10-25</td>
+      <td>26930.48</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2019-11-01</td>
+      <td>09:00</td>
+      <td>34569.09</td>
+      <td>2019-10-30</td>
+      <td>33138.17</td>
+      <td>2019-10-25</td>
+      <td>30043.60</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2019-11-01</td>
+      <td>10:00</td>
+      <td>35091.43</td>
+      <td>2019-10-30</td>
+      <td>32926.25</td>
+      <td>2019-10-25</td>
+      <td>32102.38</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2019-11-01</td>
+      <td>11:00</td>
+      <td>35416.33</td>
+      <td>2019-10-30</td>
+      <td>33122.35</td>
+      <td>2019-10-25</td>
+      <td>33431.89</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2019-11-01</td>
+      <td>12:00</td>
+      <td>33184.81</td>
+      <td>2019-10-30</td>
+      <td>31518.65</td>
+      <td>2019-10-25</td>
+      <td>32910.61</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2019-11-01</td>
+      <td>13:00</td>
+      <td>33549.94</td>
+      <td>2019-10-30</td>
+      <td>31895.21</td>
+      <td>2019-10-25</td>
+      <td>32887.61</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2019-11-01</td>
+      <td>14:00</td>
+      <td>35732.88</td>
+      <td>2019-10-30</td>
+      <td>33050.83</td>
+      <td>2019-10-25</td>
+      <td>32796.18</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2019-11-01</td>
+      <td>15:00</td>
+      <td>35859.75</td>
+      <td>2019-10-30</td>
+      <td>33464.69</td>
+      <td>2019-10-25</td>
+      <td>32594.55</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2019-11-01</td>
+      <td>16:00</td>
+      <td>36268.51</td>
+      <td>2019-10-30</td>
+      <td>34612.24</td>
+      <td>2019-10-25</td>
+      <td>33358.47</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2019-11-01</td>
+      <td>17:00</td>
+      <td>37011.89</td>
+      <td>2019-10-30</td>
+      <td>36082.10</td>
+      <td>2019-10-25</td>
+      <td>34387.95</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2019-11-01</td>
+      <td>18:00</td>
+      <td>37199.91</td>
+      <td>2019-10-30</td>
+      <td>36936.24</td>
+      <td>2019-10-25</td>
+      <td>33591.26</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2019-11-01</td>
+      <td>19:00</td>
+      <td>36056.96</td>
+      <td>2019-10-30</td>
+      <td>36219.71</td>
+      <td>2019-10-25</td>
+      <td>32648.83</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>2019-11-01</td>
+      <td>20:00</td>
+      <td>35130.19</td>
+      <td>2019-10-30</td>
+      <td>35136.55</td>
+      <td>2019-10-25</td>
+      <td>31897.73</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>2019-11-01</td>
+      <td>21:00</td>
+      <td>33947.64</td>
+      <td>2019-10-30</td>
+      <td>34155.15</td>
+      <td>2019-10-25</td>
+      <td>31049.20</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>2019-11-01</td>
+      <td>22:00</td>
+      <td>32877.69</td>
+      <td>2019-10-30</td>
+      <td>32878.23</td>
+      <td>2019-10-25</td>
+      <td>30906.43</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>2019-11-01</td>
+      <td>23:00</td>
+      <td>31590.75</td>
+      <td>2019-10-30</td>
+      <td>31456.46</td>
+      <td>2019-10-25</td>
+      <td>29621.09</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+### Now let's get into the entertaining part:
+
+"fit the model already for god's sake!"
+
+
+```python
+from sklearn import linear_model
+```
+
+Multiple linear regression with 2 independent variables:
+
+
+```python
+x = train[['lag48', 'lag168']][:33383]  ##  Not to include last 24 hour  [:33383]
+y = train[['tuketim']][:33383]          ##          //
+
+regr = linear_model.LinearRegression()
+regr.fit(x, y)
+```
+
+
+
+
+    LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)
+
+
+
+**Coefficients and the Intrcept values of the model:**
+
+
+```python
+print('Intercept: \n', regr.intercept_)
+print('Coefficients: \n', regr.coef_)
+```
+
+    Intercept: 
+     [1981.35617999]
+    Coefficients: 
+     [[0.63652781 0.30275782]]
+    
+
+**Prediction Results for the 1th of November 2019:**
+
+
+```python
+predictions = regr.predict(test[['lag48','lag168']])
+```
+
+
+```python
+predictions
+```
+
+
+
+
+    array([[27205.46877355],
+           [26111.99730375],
+           [25329.5682242 ],
+           [24777.77398935],
+           [24714.57172054],
+           [25105.36309617],
+           [25866.08379284],
+           [26807.0527739 ],
+           [30291.86765452],
+           [32170.65784391],
+           [32659.0766237 ],
+           [33186.41928133],
+           [32007.79803752],
+           [32240.52551887],
+           [32948.42863625],
+           [33150.81697474],
+           [34112.54721744],
+           [35359.83710559],
+           [35662.31683656],
+           [34920.89751041],
+           [34004.03464856],
+           [33122.44716164],
+           [32266.4273388 ],
+           [30972.28445608]])
+
+
+
+### Let's calculate the MAPE Error for our prediction:
+
+
+```python
+toplam = float(0)
+print("Actual Values || Predicted Values\n")
+
+for i in range(len(test['tuketim'])):
+    print(test['tuketim'][i] , '||' , predictions[i][0])
+    toplam += abs(test['tuketim'][i] - predictions[i][0]) / test['tuketim'][i]
+
+
+print("\n"+ "Sum:     " + str(toplam))
+print("\nMAPE Error for the prediction:   " + str(toplam/len(test['tuketim'])))
+```
+
+    Actual Values || Predicted Values
+    
+    29417.56 || 27205.468773553213
+    28133.75 || 26111.99730375492
+    27358.6 || 25329.568224195333
+    26780.09 || 24777.773989351866
+    26511.54 || 24714.571720542182
+    27002.74 || 25105.363096174045
+    27945.43 || 25866.08379283508
+    29120.27 || 26807.052773896845
+    32815.46 || 30291.867654516456
+    34569.09 || 32170.657843908473
+    35091.43 || 32659.07662369569
+    35416.33 || 33186.41928133464
+    33184.81 || 32007.7980375216
+    33549.94 || 32240.525518868722
+    35732.88 || 32948.42863625252
+    35859.75 || 33150.816974735935
+    36268.51 || 34112.54721743508
+    37011.89 || 35359.83710559109
+    37199.91 || 35662.31683655893
+    36056.96 || 34920.897510414674
+    35130.19 || 34004.03464856174
+    33947.64 || 33122.44716164024
+    32877.69 || 32266.427338801117
+    31590.75 || 30972.284456082925
+    
+    Sum:     1.365861760983099
+    
+    MAPE Error for the prediction:   0.056910906707629126
+    
+
+
+```python
+
+```
